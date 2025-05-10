@@ -1,97 +1,127 @@
-//A
-
+//Access checking in a system, enabling and disabling
+//Intialise a constructuose that takes in featureName(str), isEnabled(boolean), userGroupAccess(array of careers)
+//check if the career type is in the userGroupAccess, if not, access deny
+//Enable feature if you are flagged true and disable if flag is false
+//Using if and switch conditions, tell the user what his access is to the system
 function FeatureToggle(featureName, isEnabled, userGroupAccess) {
     this.featureName = featureName;
     this.isEnabled = isEnabled;
     this.userGroupAccess = userGroupAccess;
 }
 
-FeatureToggle.prototype.canAccess = function(userRole){
-    return this.isEnabled && this.userGroupAccess.includes(userRole);
-};
-
-FeatureToggle.prototype.toggleFeature = function (flag){
-    this.isEnabled = flag;
-};
-
-if(notification.canAccess(userRole)){
-    console.log(`${userRole} can access ${notification.featureName}.`);
-}
-
-else{
-    console.log(`${userRole} can't access ${notification.featureName}`);
-}
-
-switch (userRole){
-    case 'Admin':
-        console.log(`${userRole} has full access.`);
-        break;
-
-        case 'betaTester':
-        console.log(`${userRole} has access to test new feautres and services.`);
-        break;
-
-    case 'User':
-        console.log(`${userRole} has access to the interface.`);
-
-    case 'Company staff':
-        console.log(`${userRole} has access to the new features before release.`);
-        break;
-
-    default:
-        console.log(`${userRole} has no access to the system.`);
-        break;
+//Access check
+FeatureToggle.prototype.canAccess = function (userRole) {
+    const access =  this.isEnabled && this.userGroupAccess.includes(userRole);
+    return `${userRole} has access: ${access}`
 
 }
+//Enabling and disabling feature
+FeatureToggle.prototype.toggleFlag = function (flag) {
+    return `The feature ${this.featureName} is Enabled: ${this.isEnabled = flag}`
+}
 
-console.log(`Feature ${notification.featureName} is now available: ${notification.isEnabled}`);
-const notification = new FeatureToggle("Notification", true, ['Admin', 'betaTester', 'User', 'Company staff']);
-console.log(`Admin has access to ${notification.featureName}: ${notification.canAccess("Admin")}`);
+//Example 
+const notification = new FeatureToggle("notification", true, ["BetaTester", "Admin", "System Architect", "Backend Engineer"]);
+console.log(notification.canAccess("System Architect"));
+console.log(notification.toggleFlag(false));
 
-
-
-//sv
-function FeatureToggle(featureName, isEnabled, userGroupAccess) {
-    this.featureName = featureName;
-    this.isEnabled = isEnabled;
-    this.userGroupAccess = userGroupAccess;
-  }
-  FeatureToggle.prototype.canAccess = function(userRole) {
-    return this.isEnabled && this.userGroupAccess.includes(userRole);
-  };
-  FeatureToggle.prototype.toggleFeature = function(flag) {
-    this.isEnabled = flag;
-  };
-  // Example Usage
-  const feature = new FeatureToggle("Designer", false, ["betaTesters", "admins"]);
-  console.log(`Feature "${feature.featureName}" is currently: ${feature.isEnabled}`);
-  console.log(`Admin can access: ${feature.canAccess("admins")}`);
-  console.log(`Regular user can access: ${feature.canAccess("regularUser")}`);
-  feature.toggleFeature(true);
-  console.log(`Feature "${feature.featureName}" is now: ${feature.isEnabled}`);
-  console.log(`Admin can access: ${feature.canAccess("admins")}`);
-  const userRole = "betaTesters"; // Example role
-if (feature.canAccess(userRole)) {
-  console.log(`User role "${userRole}" can access the feature "${feature.featureName}".`);
+//If else to simulate with
+let userRole = "BetaTester";
+if (notification.canAccess(userRole)) {
+    console.log(`"${userRole}" can access the feature ${notification.featureName}.`);
 } else {
-  console.log(`User role "${userRole}" cannot access the feature "${feature.featureName}".`);
-}
-const action = "view";
-switch (userRole) {
-  case "admins":
-    console.log("Granting full admin access.");
-    break;
-  case "betaTesters":
-    console.log("Granting limited access for testing.");
-    break;
-  default:
-    console.log("Access denied.");
-    break;
+    console.log(`"${userRole}" can't access the feature ${notification.featureName}.`);
 }
 
+//Switch case to simulate with
+userRole = "Backend Engineer"
+switch (userRole) {
+    case "Admin":
+        console.log("Granting full admin access.");
+        break;
+    case "BetaTester":
+        console.log("Granting limited access to test new features.");
+        break;
+    case "System Architect":
+        console.log("Granting access to view the system without making changes.");
+        break;  
+    case "Backend Engineer":
+        console.log("Granting limited access to the database.");
+        break;           
+    default:
+        console.log("Access denied.");
+        break;
+}
 console.log("");
 
-//Order Managment
+
+//Pseodo Code
+////Intialise a constructuose that takes in freelancerName(str), projectDetails(str), logs(array of object, object has date and amount earned as property)
+//using a prototype, calculate the total earned
+//log the total earned
+//filter the days in a given week, start and end date
+//Calculate  weekly hours
+//if weekly hours is greater than 40, log greater than 40
+//else log less than 40 
+
+function TimeLog(freelancerName, projectDetails, logs) {
+    this.freelancerName = freelancerName;
+    this.projectDetails = projectDetails;
+    this.logs = logs;
+}
+
+TimeLog.prototype.totalEarnings = function () {
+    const totalHours = this.logs.reduce((sum, hours) => sum + hours.hoursWorked, 0)
+    const totalEarned = this.projectDetails.rate * totalHours
+    console.log(`${this.freelancerName} has earned ${totalEarned}$`)
+}
+
+
+TimeLog.prototype.filterlogs = function (startDate, endDate) {
+    return this.logs.filter(log => log.date >= startDate && log.date <= endDate);
+    
+    // let workedHoursInAWeek = filteredDate.logs.reduce((hours, hour)=> hours + hour, 0)
+    // console.log(`${this.freelancerName} has worked ${workedHoursInAWeek} in the week ${filteredDate}`);
+}
+
+// future Modifications
+// let date = new Date(day.date);
+//     let endDate = date.setDate(date.getDate() + parseInt(7))
+//     const dateInRange = this.logs.filter(day => {
+
+//     });
+
+
+TimeLog.prototype.weeklyHoursCheck = function () {        
+    const weeklyHours = this.logs.reduce((sum,log) => sum + log.hoursWorked,0);
+    if (weeklyHours>40){
+       return `${this.freelancerName} has worked more than 40 hours this week.`
+    }else{
+       return `${this.freelancerName}has worked less than 40 hours this week.`
+
+    } 
+}
+
+const freeLancer = new TimeLog("Kevine Umotoni", { name: "Kevine Umotoni", rate: 8 },
+    [
+        { date: "2025-05-10", hoursWorked: 2 },
+        { date: "2025-05-11", hoursWorked: 4 },
+        { date: "2025-05-12", hoursWorked: 8 },
+        { date: "2025-05-13", hoursWorked: 2 },
+        { date: "2025-05-14", hoursWorked: 6 },
+        { date: "2025-05-15", hoursWorked: 2 },
+        { date: "2025-03-16", hoursWorked: 8 },
+        { date: "2025-03-23", hoursWorked: 1 },
+
+    ]
+)
+
+freeLancer.totalEarnings()
+console.log(freeLancer.filterlogs("2025-05-15", "2025-03-23"))
+console.log(freeLancer.weeklyHoursCheck())
+console.log("");
+
+//Order Management
 function Order(customer, items, status) {
     this.customer = customer;
     this.items = items;
@@ -147,6 +177,7 @@ const urgency = order.categorizeOrder();
 console.log(`Order Urgency: ${urgency}`);
 console.log(" ");
 
+
 //Employee
 
 //Employee performance
@@ -200,7 +231,6 @@ console.log(`The average performance score of ${employee.name} is ${employee.ave
 console.log(`Performance level: ${employee.classifyPerformanceLevel()}`);
 employee.addFeedbacks("You need to make your code scalable");
 console.log(`Feedbacks: ${employee.feedbacks}`);
-console.log("");
 
 //E-learning system
 function Course(title, instructor, students) {
