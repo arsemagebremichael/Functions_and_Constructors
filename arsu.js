@@ -78,19 +78,11 @@ TimeLog.prototype.totalEarnings = function () {
 
 
 TimeLog.prototype.filterlogs = function (startDate, endDate) {
-    return this.logs.filter(log => log.date >= startDate && log.date <= endDate);
-    
-    // let workedHoursInAWeek = filteredDate.logs.reduce((hours, hour)=> hours + hour, 0)
-    // console.log(`${this.freelancerName} has worked ${workedHoursInAWeek} in the week ${filteredDate}`);
-}
-
-// future Modifications
-// let date = new Date(day.date);
-//     let endDate = date.setDate(date.getDate() + parseInt(7))
-//     const dateInRange = this.logs.filter(day => {
-
-//     });
-
+    return this.logs.filter(day => {
+        const logDate = new Date(day.date);
+        return logDate >= new Date(startDate) && logDate <= new Date(endDate);
+    });
+    }
 
 TimeLog.prototype.weeklyHoursCheck = function () {        
     const weeklyHours = this.logs.reduce((sum,log) => sum + log.hoursWorked,0);
@@ -111,13 +103,13 @@ const freeLancer = new TimeLog("Kevine Umotoni", { name: "Kevine Umotoni", rate:
         { date: "2025-05-14", hoursWorked: 6 },
         { date: "2025-05-15", hoursWorked: 2 },
         { date: "2025-03-16", hoursWorked: 8 },
-        { date: "2025-03-23", hoursWorked: 1 },
+        { date: "2025-05-23", hoursWorked: 1 },
 
     ]
 )
 
 freeLancer.totalEarnings()
-console.log(freeLancer.filterlogs("2025-05-15", "2025-03-23"))
+console.log(freeLancer.filterlogs("2025-05-15", "2025-05-23"))
 console.log(freeLancer.weeklyHoursCheck())
 console.log("");
 
